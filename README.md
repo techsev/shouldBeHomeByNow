@@ -1,7 +1,7 @@
 # ShouldBEHomeByNow
 
 ## Tech Stack
-- **[Astro](https://astro.build)** (Static Site Generator)
+- **Astro** (Static Site Generator with SSR)
 - **ReactJS** (UI Library)
 - **Supabase** (Database & Authentication)
 - **Tasker** for Android (Automation)
