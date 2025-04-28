@@ -1,4 +1,4 @@
-# ShouldBEHomeByNow
+# Shoul Be Home By Now
 
 ## Tech Stack
 - **Astro** (Static Site Generator with SSR)
