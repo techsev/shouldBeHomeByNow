@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { supabase } from '../lib/supabase'
+import Dashboard from '../components/Dashboard.tsx'
+const accessToken = Astro.cookies.get('sb-access-token')
+const refreshToken = Astro.cookies.get('sb-refresh-token')
+
+if (!accessToken || !refreshToken) {
+  return Astro.redirect('/login')
+}
+
+let session
+try {
+  session = await supabase.auth.setSession({
+    refresh_token: refreshToken.value,
+    access_token: accessToken.value
+  })
+  if (session.error) {
+    Astro.cookies.delete('sb-access-token', {
+      path: '/'
+    })
+    Astro.cookies.delete('sb-refresh-token', {
+      path: '/'
+    })
+    return Astro.redirect('/login')
+  }
+} catch (error) {
+  Astro.cookies.delete('sb-access-token', {
+    path: '/'
+  })
+  Astro.cookies.delete('sb-refresh-token', {
+    path: '/'
+  })
+  return Astro.redirect('/login')
+}
+
+const email = session.data.user?.email
+---
+
+<Layout title='dashboard'>
+  <Dashboard
+    email={email}
+    accessToken={accessToken}
+    refreshToken={refreshToken}
+    client:only
+  />
+</Layout>
