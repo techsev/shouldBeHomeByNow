@@ -101,15 +101,20 @@ const LOCATION_DATA = {
 
 const getCurrentTime = () => {
   const now = new Date()
-  return now.getHours() + ':' + now.getMinutes()
+  return (
+    now.getHours().toString().padStart(2, '0') +
+    ':' +
+    now.getMinutes().toString().padStart(2, '0')
+  )
 }
 
 const getScheduledLocation = (name: string) => {
   const currentTime = getCurrentTime()
   const isWeekend = new Date().getDay() === 0 || new Date().getDay() === 6
-  // if (isWeekend) {
-  //   return 'Weekend / At Home'
-  // }
+  if (isWeekend) {
+    return 'Weekend / At Home'
+  }
+
   const locationData = LOCATION_DATA[name as keyof typeof LOCATION_DATA]
   const currentLocation = locationData.schedule.find(
     (schedule: { startTime: string; endTime: string; location: string }) =>
